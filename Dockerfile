@@ -1,5 +1,5 @@
 # Default context
-ARG BUILD_PKP_TOOL=omp              \
+ARG BUILD_PKP_TOOL=ojs              \
     BUILD_PKP_VERSION=3.3.0-21      \
     BUILD_PKP_APP_PATH=/app         \
     BUILD_WEB_SERVER=php:8.1-apache \
@@ -26,20 +26,18 @@ WORKDIR "/${BUILD_PKP_APP_PATH}"
 RUN curl -Ss -O "https://pkp.sfu.ca/${BUILD_PKP_TOOL}/download/${BUILD_PKP_TOOL}-${BUILD_PKP_VERSION}.tar.gz" \
     && tar --strip-components=1 -xvzf "${BUILD_PKP_TOOL}-${BUILD_PKP_VERSION}.tar.gz" -C "${BUILD_PKP_APP_PATH}" > /tmp/untar.lst
 
-RUN echo    "==============================================================="   \
-    && echo " ---> PKP application: ${PKP_TOOL}"                                \
-    && echo " ---> Version:         ${BUILD_PKP_VERSION}"                       \
+RUN echo    "===============================================================" \
+    && echo " ---> PKP application:  ${PKP_TOOL}"                             \
+    && echo " ---> Version:          ${BUILD_PKP_VERSION}"                    \
+    && echo " ---> Web Server:       ${BUILD_WEB_SERVER}"                     \
+    && echo " ---> Operating system: ${BUILD_OS}"                             \
     && echo "==============================================================="
-
 
 # GET & SET THE LAMP
 FROM ${BUILD_WEB_SERVER}
 
-RUN echo    "==============================================================="   \
-    && echo " ---> Web server:      ${BUILD_WEB_SERVER} (over debian)"          \
-    && echo "==============================================================="
-
 # TODO:
+# - Move to debian-slim (test php plugins)
 # - Concatenate calls to reduce the layers
 # - Replace with PKP_variables when possible
 # - Remove "vim" in production image
@@ -56,12 +54,12 @@ ARG BUILD_PKP_TOOL                              \
 LABEL maintainer="Public Knowledge Project <marc.bria@uab.es>"
 LABEL org.opencontainers.image.vendor="Public Knowledge Project"
 LABEL org.opencontainers.image.title="PKP ${BUILD_PKP_TOOL} Web Application"
-LABEL org.opencontainers.image.description="Runs a ${BUILD_PKP_TOOL} application over Apache"
-LABEL build_version="Docker for ${BUILD_PKP_TOOL} ${BUILD_PKP_VERSION} - Build-date: ${BUILD_LABEL}"
+LABEL org.opencontainers.image.description="Runs a ${BUILD_PKP_TOOL} application over ${BUILD_WEB_SERVER}-${BUILD_OS}."
+LABEL build_version="${BUILD_PKP_TOOL} ${BUILD_PKP_VERSION} - Build-date: ${BUILD_LABEL}"
 
 # ARGs only work during building time, so they need to be exported to ENVs:
 ENV PKP_TOOL="${BUILD_PKP_TOOL:-ojs}"                       \
-    PKP_VERSION="${BUILD_PKP_VERSION:-3.3.0-16}"            \
+    PKP_VERSION="${BUILD_PKP_VERSION:-3.3.0-21}"            \
     SERVERNAME="localhost"                                  \
     WWW_USER="www-data"                                     \
     WWW_PATH_CONF="/etc/apache2/apache2.conf"               \
@@ -69,12 +67,12 @@ ENV PKP_TOOL="${BUILD_PKP_TOOL:-ojs}"                       \
     HTTPS="on"                                              \
     PKP_CLI_INSTALL="0"                                     \
     PKP_DB_HOST="localhost"                                 \
-    PKP_DB_USER="${MYSQL_USER:-ojs}"                        \
+    PKP_DB_USER="${MYSQL_USER:-pkp}"                        \
     PKP_DB_PASSWORD="${MYSQL_PASSWORD:-changeMe}"           \
-    PKP_DB_NAME="${MYSQL_DATABASE:-ojs}"                    \
-    PKP_WEB_CONF="/etc/apache2/conf.d/$BUILD_PKP_TOOL.conf" \
+    PKP_DB_NAME="${MYSQL_DATABASE:-pkp}"                    \
+    PKP_WEB_CONF="/etc/apache2/conf.d/pkp.conf" \
     PKP_CONF="config.inc.php"                               \
-    PKP_CMD="/usr/local/bin/${BUILD_PKP_TOOL:-ojs}-start"
+    PKP_CMD="/usr/local/bin/pkp-start"
 
 
 # Basic packages (todo: Remove what don't need to be installed)
@@ -116,10 +114,10 @@ COPY --from=pkp_code "${BUILD_PKP_APP_PATH}" .
 RUN mkdir -p /etc/ssl/apache2 "${WWW_PATH_ROOT}/files" /run/apache2
 # Make php/conf.d indpendent of the php version:
 RUN PHP_INI_DIR=$(php --ini | grep "Configuration File (php.ini) Path" | cut -d: -f2 | xargs) \
- && mkdir -p "$PHP_INI_DIR/conf.d" \
- && mkdir -p "/etc/php" \
- && ln -sfn "$PHP_INI_DIR" /etc/php/conf.d
-
+# Redirect logs to stdout
+RUN echo "log_errors = On" >> $PHP_INI_DIR/conf.d/log-errors.ini \
+    && echo "error_log = /dev/stderr" >> $PHP_INI_DIR/conf.d/log-errors.ini
+# PKP-app config
 RUN echo "PKP_CONF: ${PKP_CONF}"
 RUN cp -a config.TEMPLATE.inc.php "${WWW_PATH_ROOT}/html/${PKP_CONF}" 
 RUN chown -R ${WWW_USER}:${WWW_USER} "${WWW_PATH_ROOT}"
@@ -145,7 +143,7 @@ RUN apt-get clean autoclean \
 
 COPY "templates/common/$BUILD_PKP_TOOL/root/" /
 
-RUN echo "${BUILD_PKP_TOOL}-${BUILD_PKP_VERSION} [build:" $(date "+%Y%m%d-%H%M%S") "]" > "${WWW_PATH_ROOT}/container.version" \
+RUN echo "${BUILD_PKP_TOOL}-${BUILD_PKP_VERSION} over $BUILD_WEB_SERVER on $BUILD_OS [build:" $(date "+%Y%m%d-%H%M%S") "]" > "${WWW_PATH_ROOT}/container.version" \
     && rm -f "${BUILD_PKP_TOOL}-${BUILD_PKP_VERSION}.tar.gz" \
     && cat "${WWW_PATH_ROOT}/container.version"
 
@@ -154,7 +152,8 @@ EXPOSE 443
 
 VOLUME [ "${WWW_PATH_ROOT}/files", "${WWW_PATH_ROOT}/public" ]
 
-RUN chmod +x "/usr/local/bin/${BUILD_PKP_TOOL}-start"
+# RUN chmod +x "/usr/local/bin/${BUILD_PKP_TOOL}-start"
+RUN chmod +x "/usr/local/bin/pkp-start"
 
 RUN echo    "==============================================================="   \
     && echo " ---> PKP application: ${PKP_TOOL}"                                \
