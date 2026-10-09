@@ -1,0 +1,551 @@
+/**
+ * @file plugins/themes/customTheme/styles/head.less
+ *
+ * Copyright (c) 2014-2021 Simon Fraser University
+ * Copyright (c) 2003-2021 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ *
+ * @brief Modern header styles — clean, minimal, shadow-based
+ */
+@nav-menu-height: @quadruple;
+
+// ── Header container ──
+.pkp_structure_head {
+	background-color: @bg-base;
+	border-bottom: none;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.pkp_head_wrapper {
+	position: relative;
+}
+
+.pkp_site_name_wrapper {
+	height: @nav-menu-height;
+
+	@media (min-width: @screen-desktop) {
+		height: auto;
+	}
+}
+
+// ── Site logo/name ──
+.pkp_site_name {
+	position: absolute;
+	left: @nav-menu-height;
+	right: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-left: @base;
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: @text-bg-base;
+	font-family: @font-site-title;
+	font-size: @font-sml;
+
+	> a {
+		padding-top: @base;
+		padding-bottom: @base;
+
+		&:focus {
+			outline: 0;
+		}
+	}
+
+	.is_img {
+		display: inline-block;
+		margin-top: @half;
+		margin-bottom: @half;
+		padding: 0;
+
+		&:focus {
+			outline: 2px solid @accent;
+			outline-offset: 2px;
+		}
+
+		img {
+			display: block;
+			max-height: @nav-menu-height - @base;
+			max-width: 100%;
+			width: auto;
+			height: auto;
+		}
+	}
+
+	.is_text {
+		font-family: @font-site-title;
+		font-size: @font-sml;
+		font-weight: @bold;
+		line-height: @nav-menu-height;
+		color: @text-bg-base;
+		text-decoration: none;
+		letter-spacing: -0.01em;
+
+		&:focus {
+			text-decoration: underline;
+		}
+	}
+
+	// Logo placeholder styling
+	.logo_placeholder {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 200px;
+		height: 50px;
+		border: 2px dashed rgba(255,255,255,0.5);
+		border-radius: @radius;
+		color: rgba(255,255,255,0.7);
+		font-size: 0.7rem;
+		font-weight: @normal;
+		text-decoration: none;
+		text-align: center;
+		line-height: 1.3;
+		letter-spacing: 0;
+	}
+}
+
+.pkp_navigation_primary_wrapper {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+// ── Mobile navigation menu ──
+.pkp_site_nav_menu {
+	position: absolute;
+	width: 100%;
+	top: 100%;
+	background: @bg-base;
+	left: 0;
+	padding: @base;
+	z-index: 9999;
+	box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+
+	.pkp_nav_list {
+		padding-left: 0;
+		margin-left: 0;
+	}
+
+	ul {
+		&:extend(.pkp_unstyled_list);
+
+		ul {
+			padding-left: 0.5rem;
+		}
+	}
+
+	a {
+		display: inline-block;
+		padding: 0.375rem 0;
+		color: @text-bg-base;
+		text-decoration: none;
+		font-weight: @normal;
+
+		&:hover,
+		&:focus {
+			color: @accent;
+			text-decoration: none;
+		}
+	}
+
+	#siteNav {
+		position: absolute;
+		top: 0;
+		height: 0;
+	}
+}
+
+.pkp_navigation_user {
+
+	&.pkp_navigation_user {
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 1rem;
+		padding-top: 1rem;
+		border-top: 1px solid @bg-base-border-color;
+	}
+
+	.task_count {
+		display: inline-block;
+		width: @double;
+		height: @double;
+		margin-left: 0.5em;
+		border-radius: 50%;
+		background: @accent;
+		color: #1F2937;
+		line-height: @double;
+		text-align: center;
+		font-size: 0.75rem;
+		font-weight: @semibold;
+		position: relative;
+	}
+
+	// Hide the top-level task count in mobile nav
+	> li > a .task_count {
+		display: none;
+	}
+
+	> li > ul a {
+		.task_count {
+			display: inline-block;
+			background: @accent;
+			color: #1F2937;
+		}
+
+		&:hover .task_count,
+		&:focus .task_count {
+			background: @primary-lift;
+			color: #fff;
+		}
+	}
+}
+
+.pkp_navigation_search_wrapper {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid @bg-base-border-color;
+}
+
+// ── Desktop styles ──
+@pkp_nav_primary_row_el_padding: @base;
+
+@media (min-width: @screen-desktop) {
+	.pkp_head_wrapper {
+		padding-top: @triple * 2;
+	}
+
+	.pkp_site_nav_toggle {
+		display: none;
+	}
+
+	.pkp_site_name {
+		position: relative;
+		width: 100%;
+		left: auto;
+		right: auto;
+		padding: 0;
+		white-space: normal;
+		font-size: 2em;
+		background: transparent;
+		overflow: visible;
+
+		.is_text {
+			font-family: @font-site-title;
+			font-size: @font-header;
+			line-height: @line-header;
+			letter-spacing: -0.02em;
+		}
+
+		.is_img img {
+			max-height: 80px;
+		}
+
+		.logo_placeholder {
+			height: 60px;
+			width: 200px;
+		}
+	}
+
+	.pkp_site_nav_menu {
+		display: block;
+		position: static;
+		top: auto;
+		padding: 0;
+		box-shadow: none;
+
+		ul ul {
+			padding-left: 0;
+		}
+	}
+
+	// Site logo/nav on same line on larger screens
+	.has_site_logo .pkp_head_wrapper {
+		padding-top: @triple;
+	}
+
+	.pkp_nav_list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			position: relative;
+			display: inline-block;
+		}
+
+		a {
+			display: inline-block;
+			padding-left: @base;
+			padding-right: @base;
+			text-decoration: none;
+			padding-top: @half;
+			padding-bottom: @half;
+			transition: all 0.15s ease;
+
+			&:hover,
+			&:focus {
+				text-decoration: none;
+			}
+		}
+
+		ul {
+			position: absolute;
+			top: 100%;
+			left: -9999px;
+			z-index: 1000;
+			width: 15em;
+			margin: 0;
+			padding: 0.5rem 0;
+			background: @bg;
+			border-radius: @radius;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+			border: 1px solid @bg-border-color;
+
+			li {
+				display: block;
+			}
+
+			a {
+				display: block;
+				padding: 0.5rem 1rem;
+				border-left: 3px solid transparent;
+				color: @text;
+				line-height: 1.5;
+
+				&:hover,
+				&:focus {
+					outline: 0;
+					background: @bg-shade;
+					border-color: @primary;
+					color: @primary;
+				}
+			}
+
+			li:first-child a {
+				border-top-left-radius: @radius;
+				border-top-right-radius: @radius;
+			}
+
+			li:last-child a {
+				border-bottom-left-radius: @radius;
+				border-bottom-right-radius: @radius;
+			}
+		}
+
+		> li:hover ul {
+			left: 0;
+		}
+
+		[aria-haspopup]:after {
+			position: relative;
+			display: inline-block;
+			content: "";
+			width: 0;
+			height: 0;
+			margin-left: 0.25em;
+			border-top: 4px solid;
+			border-right: 4px solid transparent;
+			border-left: 4px solid transparent;
+			vertical-align: middle;
+			overflow: hidden;
+		}
+	}
+
+	// Primary site navigation menu
+	.pkp_navigation_primary {
+		text-align: center;
+
+		> li {
+			> a {
+				margin: @half 0.25em 0;
+				padding: @half 0.75em
+					calc(~"@{pkp_nav_primary_row_el_padding} - 2px");
+				border-bottom: 2px solid transparent;
+				color: @text-bg-base;
+				text-decoration: none;
+				font-weight: @normal;
+				font-size: 0.9375rem;
+				transition: all 0.15s ease;
+
+				&:hover {
+					color: @text-bg-base;
+					outline: 0;
+					border-color: @accent;
+				}
+
+				&:focus {
+					background: rgba(255,255,255,0.15);
+					color: @text-bg-base;
+					outline: 0;
+					border-radius: @radius / 2;
+				}
+			}
+
+			&:first-child {
+				a {
+					margin-left: -0.5em;
+				}
+			}
+
+			&:last-child {
+				a {
+					margin-right: -0.5em;
+				}
+			}
+		}
+
+		// Reproduce positioning of dropdown menu from Popper.js
+		> li:hover ul {
+			position: absolute;
+			transform: translate3d(7px, 40px, 0px);
+			top: 0;
+			left: 0;
+			will-change: transform;
+		}
+
+		ul a {
+			padding-top: @base;
+			padding-bottom: @base;
+		}
+
+		[aria-haspopup]:hover {
+			border-color: transparent;
+		}
+
+		.dropdown-menu a:focus,
+		.dropdown-menu a:hover {
+			border-color: @primary;
+		}
+
+		@media (min-width: @screen-desktop) {
+			display: inline-block;
+			max-width: 80%;
+			text-align: left;
+		}
+	}
+
+	// Bootstrap dropdown components
+	.dropdown-menu {
+		display: none;
+
+		&.show {
+			display: block;
+		}
+	}
+
+	[data-toggle="dropdown"]:hover + .dropdown-menu,
+	.dropdown-menu:hover {
+		display: block;
+	}
+
+	// User-focused navigation menu
+	.pkp_navigation_user_wrapper {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		padding-left: @base;
+		padding-right: @base;
+		text-align: right;
+		padding-top: 0;
+		margin-top: 0;
+		border-top: none;
+		z-index: 1000;
+	}
+
+	.pkp_navigation_user {
+		text-align: right;
+		font-size: @font-sml;
+		padding-right: @double;
+
+		&.pkp_navigation_user {
+			margin: 0;
+			padding: 0;
+			border: none;
+		}
+
+		li {
+			text-align: left;
+		}
+
+		a {
+			padding-top: @half;
+			padding-bottom: @half;
+			line-height: @line-sml;
+		}
+
+		> li > a:focus {
+			outline: 0;
+			background: rgba(255,255,255,0.15);
+			color: @text-bg-base;
+			border-radius: @radius / 2;
+		}
+
+		ul {
+			width: 10em;
+		}
+
+		// Reproduce positioning of dropdown menu from Popper.js
+		> li:hover ul {
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform: translate3d(0px, 30px, 0px);
+			will-change: transform;
+		}
+
+		// Align to the right edge of the container
+		> li:last-child > a {
+			margin-right: -@base;
+		}
+
+		// Show the top-level task count in desktop nav
+		> li > a .task_count {
+			display: inline-block;
+		}
+
+		> li > a:focus .task_count {
+			background: @primary-lift;
+			color: #fff;
+		}
+
+		> li > ul a {
+			.task_count {
+				display: none;
+			}
+		}
+	}
+
+	.pkp_navigation_search_wrapper {
+		float: right;
+		margin: 0;
+		padding: 0;
+		border: none;
+
+		a {
+			margin: @half 0.5em 0;
+			padding: @half 0.5em
+				calc(~"@{pkp_nav_primary_row_el_padding} - 2px");
+			border-bottom: 2px solid transparent;
+			color: @text-bg-base;
+			text-decoration: none;
+			transition: all 0.15s ease;
+
+			&:hover {
+				color: @text-bg-base;
+				outline: 0;
+				border-color: @accent;
+				text-decoration: none;
+			}
+
+			&:focus {
+				background: rgba(255,255,255,0.15);
+				color: @text-bg-base;
+				outline: 0;
+				text-decoration: none;
+				border-radius: @radius / 2;
+			}
+		}
+	}
+}

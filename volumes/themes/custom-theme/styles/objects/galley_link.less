@@ -1,0 +1,62 @@
+/**
+ * @file styles/objects/galley_link.less
+ *
+ * Copyright (c) 2014-2021 Simon Fraser University
+ * Copyright (c) 2003-2021 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ *
+ * @brief Modern galley link button
+ */
+.obj_galley_link {
+	&:extend(.cmp_button_wire);
+	font-size: @font-sml;
+	padding: 0.375em 1em;
+
+	&:hover,
+	&:focus {
+		&:extend(.cmp_button_wire:hover);
+	}
+
+	&:before {
+		.fa();
+		content: @fa-var-file-text-o;
+		margin-right: 0.25em;
+	}
+
+	&.pdf:before {
+		content: @fa-var-file-pdf-o;
+	}
+
+	&.restricted {
+		border-color: @text-light;
+		color: @text-light;
+
+		&:before {
+			.fa();
+			content: @fa-var-lock;
+			color: @text-light;
+		}
+
+		&:hover,
+		&:focus {
+			background: @text-light;
+			color: #fff;
+
+			&:before {
+				color: #fff;
+			}
+		}
+	}
+}
+
+.obj_galley_link_supplementary {
+	.cmp_button_text(@fa-var-file-text-o);
+	padding-right: 0;
+	padding-left: @double;
+
+	&:after {
+		right: auto;
+		left: 0;
+		text-align: left;
+	}
+}

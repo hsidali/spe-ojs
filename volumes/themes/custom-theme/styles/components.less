@@ -1,0 +1,503 @@
+/**
+ * @file styles/components.less
+ *
+ * Copyright (c) 2014-2021 Simon Fraser University
+ * Copyright (c) 2003-2021 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ *
+ * @brief Reusable components — modern, flat, minimal
+ */
+
+// Simple clearfix wrapper
+.row {
+	.pkp_helpers_clear;
+}
+
+// ── Primary Button ──
+.cmp_button {
+	display: inline-block;
+	padding: 0.5em 1.25em;
+	background: @primary;
+	border: none;
+	border-radius: @radius;
+	box-shadow: none;
+	font-family: @font;
+	font-size: @font-sml;
+	line-height: 1.5;
+	font-weight: @semibold;
+	color: #fff;
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.15s ease;
+
+	&:hover,
+	&:focus {
+		background: @primary-lift;
+		box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+		color: #fff;
+		text-decoration: none;
+	}
+}
+
+// ── Outline Button ──
+.cmp_button_wire {
+	display: inline-block;
+	padding: 0.5em 1.25em;
+	background: #fff;
+	border: 1px solid @primary;
+	border-radius: @radius;
+	font-family: @font;
+	font-size: @font-sml;
+	line-height: 1.5;
+	font-weight: @semibold;
+	color: @primary;
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.15s ease;
+
+	&:hover,
+	&:focus {
+		background: @primary;
+		color: #fff;
+		box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+	}
+}
+
+// Add an icon to the button
+.cmp_button_icon( @icon ) {
+	position: relative;
+	padding-right: @triple + (@triple / 2);
+	border-right: none;
+
+	&:after {
+		.fa();
+		content: @icon;
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: @triple;
+		height: 100%;
+		border-top-right-radius: @radius;
+		border-bottom-right-radius: @radius;
+		line-height: @triple;
+		text-align: center;
+		background: @primary-lift;
+		color: #fff;
+	}
+
+	&:hover:after,
+	&:focus:after {
+		background: darken(@primary-lift, 5%);
+	}
+}
+
+.cmp_button_icon_left( @icon ) {
+	padding-right: 1.25em;
+	padding-left: @triple + (@triple / 2);
+	border-right: none;
+	border-left: none;
+
+	&:after {
+		right: auto;
+		left: 0;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+		border-top-left-radius: @radius;
+		border-bottom-left-radius: @radius;
+	}
+}
+
+// Text button with an icon
+.cmp_button_text( @icon ) {
+	display: inline-block;
+	position: relative;
+	padding-right: @triple;
+	font-size: @font-sml;
+	font-weight: @semibold;
+	line-height: @triple;
+	color: @primary;
+	text-decoration: none;
+	transition: color 0.15s ease;
+
+	&:after {
+		.fa();
+		content: @icon;
+		position: absolute;
+		top: 2px;
+		right: 0;
+		width: @triple;
+		height: @triple;
+		line-height: @triple;
+		text-align: center;
+	}
+
+	&:hover,
+	&:focus {
+		color: @primary-lift;
+	}
+}
+
+// ── Article list ──
+.cmp_article_list {
+	&:extend(.pkp_unstyled_list);
+
+	> li {
+		.pkp_helpers_clear();
+		margin-bottom: @base;
+		padding: @double;
+		background: #fff;
+		border: 1px solid @bg-border-color;
+		border-radius: @radius;
+		transition: box-shadow 0.15s ease, border-color 0.15s ease;
+
+		&:hover {
+			border-color: darken(@bg-border-color, 5%);
+			box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+		}
+	}
+}
+
+// ── Forms ──
+.cmp_form {
+
+	fieldset {
+		margin: 0 0 @double;
+		padding: 0;
+		border: none;
+	}
+
+	legend {
+		margin-bottom: @base;
+		font-size: @font-bump;
+		font-weight: @semibold;
+		line-height: @double;
+		color: @text;
+	}
+
+	.fields {
+
+		> div {
+			position: relative;
+			padding-bottom: @triple;
+
+			.error {
+				position: absolute;
+				left: 0.5em;
+				bottom: 11px;
+				padding: 0 0.5em;
+				background: @no;
+				border-bottom-left-radius: @radius;
+				border-bottom-right-radius: @radius;
+				font-size: @font-sml;
+				line-height: @double;
+				font-weight: @semibold;
+				color: #fff;
+			}
+		}
+	}
+
+	label {
+		display: block;
+		cursor: pointer;
+		font-weight: @semibold;
+		font-size: @font-sml;
+		color: @text;
+		margin-bottom: 0.25em;
+	}
+
+	.label {
+		display: block;
+		font-size: @font-sml;
+		font-weight: @normal;
+	}
+
+	input[type="text"],
+	input[type="email"],
+	input[type="password"],
+	input[type="url"],
+	input[type="tel"],
+	select,
+	textarea {
+		padding: 0.5em 0.75em;
+		width: 100%;
+		height: auto;
+		background: #fff;
+		border: @form-border;
+		border-radius: @radius;
+		font-family: @font;
+		font-size: @font-sml;
+		line-height: 1.5;
+		color: @text;
+		transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+		&:focus {
+			outline: none;
+			border-color: @primary;
+			box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+		}
+	}
+
+	textarea {
+		width: 100%;
+		height: 8em;
+		resize: vertical;
+	}
+
+	.pkp_form_error {
+		margin-bottom: @base;
+		border-radius: @radius;
+		padding: 0.5em 0.75em;
+		font-weight: @semibold;
+		font-size: @font-sml;
+		background: @no;
+		color: #fff;
+	}
+
+	label > input[type="checkbox"],
+	label > input[type="radio"] {
+		margin-right: 0.5em;
+	}
+
+	.buttons {
+		.pkp_helpers_clear;
+		margin-top: @double;
+
+		button {
+			&:extend(.cmp_button);
+		}
+
+		a {
+			font-size: @font-sml;
+			line-height: @triple;
+			margin-left: 1em;
+		}
+	}
+
+	.description {
+		margin-top: 0.25em;
+		font-size: @font-sml;
+		line-height: 1.5em;
+		color: @text-light;
+	}
+
+	@media(min-width: @screen-phone) {
+
+		input[type="text"],
+		input[type="email"],
+		input[type="password"],
+		input[type="url"],
+		input[type="tel"],
+		select {
+			max-width: 24em;
+		}
+	}
+}
+
+// ── Pagination ──
+.cmp_pagination {
+	.pkp_helpers_clear;
+	text-align: right;
+	margin-top: @double;
+
+	.prev {
+		float: left;
+		margin-right: 0.5em;
+		text-decoration: none;
+
+		&:before {
+			.fa;
+			content: @fa-var-long-arrow-left;
+			margin-right: 0.5em;
+		}
+	}
+
+	.next {
+		margin-left: 0.5em;
+		text-decoration: none;
+
+		&:after {
+			.fa;
+			content: @fa-var-long-arrow-right;
+			margin-left: 0.5em;
+		}
+	}
+}
+
+// ── Edit link ──
+.cmp_edit_link {
+	display: inline-block;
+	margin-left: 1em;
+	font-size: @font-sml;
+	font-weight: @normal;
+	line-height: 1;
+	vertical-align: middle;
+	text-decoration: none;
+	color: @text-light;
+
+	&:before {
+		.fa();
+		content: @fa-var-pencil;
+	}
+
+	&:hover {
+		color: @primary;
+	}
+}
+
+// ── Search result filter ──
+.cmp_search_filter {
+	margin-bottom: @base;
+	font-size: @font-sml;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	label {
+		font-style: italic;
+	}
+
+	.delete {
+		color: @no;
+	}
+}
+
+// ── Notification ──
+.cmp_notification {
+	display: block;
+	width: 100%;
+	padding: @double;
+	margin-bottom: @quadruple;
+	background: @bg-shade;
+	border-left: 4px solid @primary;
+	border-radius: @radius;
+	font-size: @font-base;
+	line-height: @line-base;
+
+	.success {
+		border-color: @yes;
+	}
+
+	.no {
+		border-color: @no;
+	}
+}
+
+// ── Breadcrumbs ──
+.cmp_breadcrumbs {
+	display: inline-block;
+
+
+	ol {
+		&:extend(.pkp_unstyled_list);
+		margin-bottom: @triple;
+		padding: @half 0;
+		line-height: @double;
+		font-size: @font-sml;
+	}
+
+	li {
+		display: inline-block;
+	}
+
+	a {
+		display: inline-block;
+		text-decoration: none;
+	}
+
+	.separator {
+		color: @text-light;
+		padding: 0 0.5em;
+	}
+
+	.current {
+		color: @text-light;
+
+		h1 {
+			margin: 0;
+			font-family: @font;
+			font-size: @font-sml;
+			font-weight: @normal;
+		}
+	}
+}
+
+// ── Back link ──
+.cmp_back_link {
+	margin-top: @double;
+}
+
+// ── Announcements ──
+.cmp_announcements.cmp_announcements {
+	&:extend(.pkp_unstyled_list);
+	margin-left: -@base;
+	margin-right: -@base;
+
+	> li {
+		padding: @double @base;
+		border-bottom: @bg-border;
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+
+	@media(min-width: @screen-phone) {
+		margin-left: -@double;
+		margin-right: -@double;
+
+		> li {
+			padding-left: @double;
+			padding-right: @double;
+		}
+	}
+
+	@media(min-width: @screen-desktop) {
+		margin-left: -@triple;
+		margin-right: -@triple;
+
+		> li {
+			padding-left: @triple;
+			padding-right: @triple;
+		}
+
+	}
+}
+
+// ── Skip-to navigation links ──
+.cmp_skip_to_content a {
+	&:extend(.pkp_screen_reader);
+	display: block;
+	padding: 1em;
+	z-index: 99999;
+	background: @bg;
+	transform: translateX(-50%);
+
+	&:focus {
+		clip: auto;
+		top: 0;
+		left: 50%;
+		color: @primary;
+	}
+}
+
+// ── Tables ──
+.cmp_table {
+	width: 100%;
+	border: @bg-border;
+	border-bottom: none;
+	border-collapse: collapse;
+	border-radius: @radius;
+
+	th,
+	td {
+		padding: 0.75em 1em;
+		text-align: left;
+		border-bottom: @bg-border;
+	}
+
+	th {
+		font-weight: @semibold;
+		background: @bg-shade;
+	}
+}

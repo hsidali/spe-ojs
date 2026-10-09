@@ -1,0 +1,46 @@
+/**
+ * @file plugins/themes/customTheme/styles/footer.less
+ *
+ * Copyright (c) 2014-2021 Simon Fraser University
+ * Copyright (c) 2003-2021 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ *
+ * @brief Modern footer styles
+ */
+
+.pkp_structure_footer_wrapper {
+	background: @bg-shade;
+	border-top: 1px solid @bg-border-color;
+	margin-top: @quadruple;
+}
+
+.pkp_structure_footer {
+	text-align: center;
+}
+
+.pkp_footer_content {
+	padding: @triple;
+	text-align: left;
+	font-size: @font-sml;
+	color: @text-light;
+	line-height: 1.6;
+}
+
+// OJS brand images in footer
+.pkp_brand_footer {
+	.pkp_helpers_clear();
+	padding: @double @triple;
+	border-top: 1px solid @bg-border-color;
+
+	a {
+		float: right;
+		display: block;
+		max-width: 150px;
+		opacity: 0.6;
+		transition: opacity 0.15s ease;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+}

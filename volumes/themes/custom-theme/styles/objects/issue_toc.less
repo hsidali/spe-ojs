@@ -1,0 +1,151 @@
+/**
+ * @file styles/objects/issue_toc.less
+ *
+ * Copyright (c) 2014-2021 Simon Fraser University
+ * Copyright (c) 2003-2021 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ *
+ * @brief Modern issue table of contents
+ */
+.obj_issue_toc {
+
+	.cover {
+		display: block;
+		margin-bottom: @double;
+
+		img {
+			display: block;
+			max-height: 250px;
+			width: auto;
+			border-radius: @radius;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+		}
+	}
+
+	.description {
+
+		> *:first-child {
+			margin-top: 0;
+		}
+
+		> *:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.pub_id {
+		margin: @double 0;
+
+		.type {
+			font-weight: @semibold;
+		}
+	}
+
+	.published {
+		margin: @double 0;
+		color: @text-light;
+		font-size: @font-sml;
+
+		.label {
+			font-weight: @semibold;
+			color: @text;
+		}
+	}
+
+	.articles {
+		&:extend(.pkp_unstyled_list);
+		margin-top: calc(~"@{triple} + @{double}");
+	}
+
+	h2 + .articles,
+	h3 + .articles {
+		margin-top: 0;
+	}
+
+	.sections:not(:first-child) {
+		margin-top: @triple * 2;
+	}
+
+	.section:last-child .articles > li:last-child {
+		margin-bottom: 0;
+	}
+
+	.galleys_links {
+		&:extend(.pkp_unstyled_list);
+		margin-top: @base;
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: start;
+		gap: 0.5rem;
+
+		li {
+			margin-inline-end: 0;
+
+			&:last-child {
+				margin-inline-end: 0;
+			}
+		}
+	}
+
+	@media(min-width: @screen-tablet) {
+
+		.heading {
+			.pkp_helpers_clear;
+		}
+
+		.cover {
+			float: left;
+			width: 25%;
+			height: auto;
+			max-height: none;
+			margin-right: @double;
+		}
+
+		.galleys,
+		.section {
+			position: relative;
+			margin: @double -@double;
+			padding: @double @triple;
+
+			&:before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				border-top: @bg-border;
+			}
+
+			> h2,
+			> h3 {
+				display: inline-block;
+				position: relative;
+				left: -15px;
+				margin-top: 0;
+				padding: 0 1em;
+				background: @bg;
+				font-size: @font-bump;
+				font-weight: @semibold;
+				line-height: @triple;
+				color: @text-light;
+			}
+		}
+	}
+
+	@media(min-width: @screen-desktop) {
+
+		.galleys,
+		.section {
+			margin: @triple -@triple;
+		}
+
+		.cover {
+			margin-right: @triple;
+			margin-bottom: @triple;
+
+			img {
+				max-height: none;
+			}
+		}
+	}
+}
