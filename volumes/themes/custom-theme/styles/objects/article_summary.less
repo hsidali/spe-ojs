@@ -25,18 +25,22 @@
 	> .title {
 		font-family: @font-heading;
 		font-size: @font-bump;
-		line-height: 1.4;
+		line-height: 1.55;
 		font-weight: @semibold;
 		border-bottom: none;
 		margin: 0 0 0.25em;
 
 		a {
 			text-decoration: none;
-			color: @text;
+			color: @ink;
 			transition: color 0.15s ease;
 
-			&:hover {
+			&:hover,
+			&:focus {
 				color: @primary;
+				text-decoration: underline;
+				text-decoration-thickness: 1px;
+				text-underline-offset: 2px;
 			}
 		}
 	}
@@ -59,8 +63,9 @@
 	}
 
 	.authors {
-		color: @text-light;
+		color: @text;
 		font-size: @font-sml;
+		font-weight: @semibold;
 	}
 
 	.pages,

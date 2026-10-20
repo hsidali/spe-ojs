@@ -56,8 +56,7 @@
 
 	.cmp_announcements {
 		.pkp_helpers_clear();
-		border-top: @bg-border;
-		border-bottom: @bg-border;
+		margin-top: @double;
 
 		h2 {
 			&:extend(.pkp_screen_reader all);
@@ -95,16 +94,6 @@
 			> .obj_announcement_summary {
 				float: left;
 				width: 65%;
-
-				&:before {
-					content: ' ';
-					position: absolute;
-					top: 0;
-					right: -1px;
-					width: 1px;
-					height: 100%;
-					border-left: @bg-border;
-				}
 			}
 
 			.more {
@@ -112,16 +101,6 @@
 				width: 35%;
 				padding-top: @double;
 				padding-bottom: @double;
-
-				&:before {
-					content: ' ';
-					position: absolute;
-					top: 0;
-					left: 0;
-					width: 1px;
-					height: 100%;
-					border-left: @bg-border;
-				}
 			}
 		}
 
@@ -196,5 +175,125 @@
 		.cmp_announcements + .additional_content {
 			border-top: none;
 		}
+	}
+}
+
+// ── Journal identity hero: contained navy card inside the content column ──
+// NOTE: every rule is scoped under `.page_index_journal` (0,2,0+) so it beats
+// the generic `.pkp_structure_main h1/p/ul` rules (0,1,1) from main.less.
+.page_index_journal .journal_hero {
+	background: @bg-base;
+	color: @text-bg-base;
+	border: 1px solid @bg-base;
+	border-radius: @radius;
+	box-shadow: 0 4px 20px rgba(11, 18, 32, 0.18);
+	overflow: hidden;
+}
+
+.page_index_journal .journal_hero_inner {
+	max-width: 60rem;
+	margin: 0 auto;
+	padding: @double @base;
+
+	@media (min-width: @screen-phone) {
+		padding: @triple @double;
+	}
+
+	@media (min-width: @screen-desktop) {
+		padding: @triple;
+	}
+}
+
+.page_index_journal .journal_hero_eyebrow {
+	margin: 0 0 @half;
+	font-size: @font-sml;
+	font-weight: @semibold;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: lighten(@primary, 38%);
+}
+
+.page_index_journal h1.journal_hero_title {
+	margin: 0 0 @base;
+	font-family: @font-heading;
+	font-size: @font-header;
+	line-height: @line-header;
+	font-weight: @bold;
+	letter-spacing: -0.02em;
+	color: #fff;
+}
+
+.page_index_journal p.journal_hero_description {
+	margin: 0 0 @base;
+	max-width: 44rem;
+	font-size: @font-bump;
+	line-height: 1.7;
+	color: rgba(255, 255, 255, 0.82);
+}
+
+.page_index_journal ul.journal_hero_meta {
+	&:extend(.pkp_unstyled_list);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem 0.5rem;
+	margin: 0 0 @double;
+	padding: 0;
+	font-size: @font-sml;
+	line-height: 1.5;
+	color: rgba(255, 255, 255, 0.7);
+
+	li {
+		padding: 0;
+	}
+
+	li + li:before {
+		content: "·";
+		margin-right: 0.5rem;
+		color: rgba(255, 255, 255, 0.4);
+	}
+}
+
+.page_index_journal .journal_hero_actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: @base;
+}
+
+.page_index_journal a.journal_hero_btn {
+	display: inline-block;
+	padding: 0.625em 1.5em;
+	border-radius: @radius;
+	font-size: @font-sml;
+	font-weight: @semibold;
+	line-height: 1.5;
+	text-decoration: none;
+	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.page_index_journal a.journal_hero_btn_primary {
+	background: @primary;
+	border: 1px solid @primary;
+	color: #fff;
+
+	&:hover,
+	&:focus {
+		background: @primary-lift;
+		border-color: @primary-lift;
+		color: #fff;
+		text-decoration: none;
+	}
+}
+
+.page_index_journal a.journal_hero_btn_outline {
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	color: #fff;
+
+	&:hover,
+	&:focus {
+		background: rgba(255, 255, 255, 0.12);
+		border-color: #fff;
+		color: #fff;
+		text-decoration: none;
 	}
 }

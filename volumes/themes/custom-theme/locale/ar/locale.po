@@ -94,3 +94,24 @@ msgstr "الشريحة التالية"
 
 msgid "plugins.themes.default.prevSlide"
 msgstr "الشريحة السابقة"
+
+msgid "plugins.themes.customTheme.makeSubmission"
+msgstr "تقديم مخطوطة"
+
+msgid "plugins.themes.customTheme.hero.eyebrow"
+msgstr "مجلة ذات وصول مفتوح"
+
+msgid "plugins.themes.customTheme.hero.viewCurrentIssue"
+msgstr "عرض العدد الحالي"
+
+msgid "plugins.themes.customTheme.footer.quickLinks"
+msgstr "روابط سريعة"
+
+msgid "plugins.themes.customTheme.footer.contact"
+msgstr "اتصل بنا"
+
+msgid "plugins.themes.customTheme.footer.publishedBy"
+msgstr "نشر بواسطة"
+
+msgid "plugins.themes.customTheme.search.foundResults"
+msgstr "تم العثور على {$total} من العناصر."

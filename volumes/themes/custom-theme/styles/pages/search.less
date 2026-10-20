@@ -89,9 +89,32 @@
 		padding: 0;
 		list-style: none;
 
-		.obj_article_summary {
-			margin: @double 0;
+		> li {
+			margin-bottom: @base;
+			padding: @double;
+			background: #fff;
+			border: 1px solid @bg-border-color;
+			border-radius: @radius;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
 		}
+
+		.obj_article_summary {
+			margin: 0;
+		}
+	}
+
+	.search_results_empty {
+		display: block;
+		padding: @triple @double;
+		background: @bg-shade;
+		border: 1px dashed @bg-border-color;
+		border-radius: @radius;
+		text-align: center;
+		color: @text-light;
+		font-size: @font-sml;
 	}
 
 	// Deprecated pagination of search results

@@ -10,6 +10,19 @@
  */
 .page_register {
 
+	// Registration form card
+	form {
+		padding: @double;
+		background: #fff;
+		border: 1px solid @bg-border-color;
+		border-radius: @radius;
+		box-shadow: 0 1px 4px rgba(11, 18, 32, 0.05);
+
+		@media (min-width: @screen-desktop) {
+			padding: @double @triple;
+		}
+	}
+
 	.required_label {
 		font-size: @font-sml;
 		line-height: @line-sml;
@@ -86,6 +99,7 @@
 		margin: @double 0;
 		padding: @base;
 		background: @no;
+		border-radius: @radius;
 		color: #fff;
 
 		.pkp_form_error {

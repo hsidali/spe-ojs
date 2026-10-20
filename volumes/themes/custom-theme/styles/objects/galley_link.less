@@ -23,8 +23,31 @@
 		margin-right: 0.25em;
 	}
 
-	&.pdf:before {
-		content: @fa-var-file-pdf-o;
+	&.pdf {
+		background: @primary;
+		border-color: @primary;
+		color: #fff;
+
+		&:before {
+			content: @fa-var-file-pdf-o;
+			margin-right: 0.25em;
+		}
+
+		&:hover,
+		&:focus {
+			background: @primary-lift;
+			border-color: @primary-lift;
+			color: #fff;
+		}
+
+		&:active {
+			background: @primary-pressed;
+			border-color: @primary-pressed;
+		}
+	}
+
+	&.view:before {
+		content: @fa-var-eye;
 	}
 
 	&.restricted {

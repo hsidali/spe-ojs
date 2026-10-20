@@ -107,3 +107,24 @@ msgstr "Diapositive suivante"
 
 msgid "plugins.themes.default.prevSlide"
 msgstr "Diapositive précédente"
+
+msgid "plugins.themes.customTheme.makeSubmission"
+msgstr "Soumettre un manuscrit"
+
+msgid "plugins.themes.customTheme.hero.eyebrow"
+msgstr "Revue en libre accès"
+
+msgid "plugins.themes.customTheme.hero.viewCurrentIssue"
+msgstr "Voir le numéro en cours"
+
+msgid "plugins.themes.customTheme.footer.quickLinks"
+msgstr "Liens rapides"
+
+msgid "plugins.themes.customTheme.footer.contact"
+msgstr "Contact"
+
+msgid "plugins.themes.customTheme.footer.publishedBy"
+msgstr "Publié par"
+
+msgid "plugins.themes.customTheme.search.foundResults"
+msgstr "{$total} documents trouvés."

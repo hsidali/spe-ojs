@@ -14,11 +14,24 @@
 		&:extend(.pkp_unstyled_list);
 		margin-left: -@base;
 		margin-right: -@base;
-		border-top: @bg-border;
+		border-top: none;
 
 		> li {
-			padding: @triple @base;
-			border-bottom: @bg-border;
+			margin-bottom: @double;
+			padding: @double;
+			background: #fff;
+			border: 1px solid @bg-border-color;
+			border-radius: @radius;
+			transition: box-shadow 0.15s ease, border-color 0.15s ease;
+
+			&:hover {
+				border-color: darken(@bg-border-color, 5%);
+				box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
 		}
 
 		@media(min-width: @screen-phone) {
@@ -36,8 +49,7 @@
 			margin-right: -@triple;
 
 			> li {
-				padding-left: @triple;
-				padding-right: @triple;
+				padding: @double @triple;
 			}
 		}
 	}

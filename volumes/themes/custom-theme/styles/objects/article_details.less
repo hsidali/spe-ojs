@@ -146,6 +146,47 @@
 		padding-top: 0;
 	}
 
+	// Abstract: comfortable academic reading rhythm
+	.item.abstract .value {
+		line-height: 1.8;
+
+		> *:first-child {
+			margin-top: 0;
+		}
+
+		> *:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	// References: hanging indent
+	.item.references .value {
+		> * {
+			padding-left: 1.5em;
+			text-indent: -1.5em;
+		}
+	}
+
+	// Downloads as an emphasized surface card
+	.item.galleys {
+		margin-top: @double;
+		padding: @double;
+		background: @bg-shade;
+		border: 1px solid @bg-border-color;
+		border-radius: @radius;
+
+		> h2,
+		> h3 {
+			margin-top: 0;
+			padding-bottom: @half;
+			border-bottom: 1px solid @bg-border-color;
+			font-family: @font-heading;
+			font-size: @font-base;
+			font-weight: @semibold;
+			color: @text;
+		}
+	}
+
 	.galleys_links {
 		&:extend(.pkp_unstyled_list);
 		display: flex;

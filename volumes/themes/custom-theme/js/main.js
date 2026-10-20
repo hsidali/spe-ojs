@@ -57,6 +57,25 @@
   		$('.pkp_site_nav_toggle').toggleClass('pkp_site_nav_toggle--transform');
 	});
 
+	// Mark the current primary nav item (OJS does not flag it server-side)
+	$().ready(function() {
+		var path = window.location.pathname.replace(/\/+$/, '').replace(/\/index$/, '');
+		$('#navigationPrimary a').each(function() {
+			var href = $(this).attr('href');
+			if (!href || href.charAt(0) === '#') {
+				return;
+			}
+			var link = document.createElement('a');
+			link.href = href;
+			var linkPath = link.pathname.replace(/\/+$/, '').replace(/\/index$/, '');
+			if (linkPath && linkPath === path) {
+				$(this).addClass('is_current');
+				$(this).attr('aria-current', 'page');
+				return false;
+			}
+		});
+	});
+
 	// Modify the Chart.js display options used by UsageStats plugin
 	document.addEventListener('usageStatsChartOptions.pkp', function(e) {
 		e.chartOptions.elements.line.backgroundColor = 'rgba(0, 122, 178, 0.6)';

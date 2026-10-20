@@ -5,42 +5,144 @@
  * Copyright (c) 2003-2021 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @brief Modern footer styles
+ * @brief Navy academic footer mirroring the header band
  */
 
 .pkp_structure_footer_wrapper {
-	background: @bg-shade;
-	border-top: 1px solid @bg-border-color;
+	background: @bg-base;
+	border-top: none;
 	margin-top: @quadruple;
+	color: rgba(255, 255, 255, 0.78);
 }
 
 .pkp_structure_footer {
-	text-align: center;
+	text-align: left;
+	padding-top: @triple;
+	padding-bottom: @double;
+}
+
+.pkp_footer_columns {
+	display: grid;
+	gap: @double;
+	grid-template-columns: 1fr;
+	padding: 0 @base @double;
+
+	@media (min-width: @screen-tablet) {
+		grid-template-columns: 2fr 1fr 1fr;
+		padding: 0 @double @double;
+	}
+
+	@media (min-width: @screen-desktop) {
+		padding: 0 @triple @double;
+	}
+}
+
+.pkp_footer_heading {
+	margin: 0 0 @base;
+	font-family: @font-heading;
+	font-size: @font-base;
+	font-weight: @semibold;
+	line-height: 1.5;
+	color: #fff;
+}
+
+.pkp_footer_text {
+	margin: 0 0 @base;
+	font-size: @font-sml;
+	line-height: 1.7;
+	color: rgba(255, 255, 255, 0.72);
+}
+
+.pkp_footer_publisher {
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.pkp_footer_col {
+	ul {
+		&:extend(.pkp_unstyled_list);
+		margin: 0;
+		font-size: @font-sml;
+		line-height: 1.7;
+
+		li {
+			padding: 0.2rem 0;
+		}
+	}
+
+	a {
+		color: rgba(255, 255, 255, 0.82);
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			color: #fff;
+			text-decoration: underline;
+		}
+	}
 }
 
 .pkp_footer_content {
-	padding: @triple;
+	padding: 0;
 	text-align: left;
 	font-size: @font-sml;
-	color: @text-light;
-	line-height: 1.6;
-}
+	color: rgba(255, 255, 255, 0.72);
+	line-height: 1.7;
 
-// OJS brand images in footer
-.pkp_brand_footer {
-	.pkp_helpers_clear();
-	padding: @double @triple;
-	border-top: 1px solid @bg-border-color;
+	p:first-child {
+		margin-top: 0;
+	}
+
+	p:last-child {
+		margin-bottom: 0;
+	}
 
 	a {
-		float: right;
+		color: rgba(255, 255, 255, 0.82);
+	}
+
+	// Footer logo uploaded via Website Settings is the white ESI mark
+	// for the navy footer (see seeds/make-white-logo.php).
+	img {
+		max-width: 140px;
+		height: auto;
+		opacity: 0.92;
+	}
+}
+
+// OJS brand bar at the very bottom
+.pkp_brand_footer {
+	.pkp_helpers_clear();
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: @base;
+	margin: 0 @base;
+	padding: @base 0 0;
+	border-top: 1px solid @bg-base-border-color;
+
+	@media (min-width: @screen-tablet) {
+		margin: 0 @double;
+	}
+
+	@media (min-width: @screen-desktop) {
+		margin: 0 @triple;
+	}
+
+	a {
+		float: none;
 		display: block;
 		max-width: 150px;
 		opacity: 0.6;
+		filter: brightness(0) invert(1);
 		transition: opacity 0.15s ease;
 
 		&:hover {
 			opacity: 1;
 		}
 	}
+}
+
+.pkp_footer_copyright {
+	font-size: @font-sml;
+	color: rgba(255, 255, 255, 0.6);
 }

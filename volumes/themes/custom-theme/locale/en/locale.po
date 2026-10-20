@@ -98,3 +98,24 @@ msgstr "Next slide"
 
 msgid "plugins.themes.default.prevSlide"
 msgstr "Previous slide"
+
+msgid "plugins.themes.customTheme.makeSubmission"
+msgstr "Make a Submission"
+
+msgid "plugins.themes.customTheme.hero.eyebrow"
+msgstr "Open Access Journal"
+
+msgid "plugins.themes.customTheme.hero.viewCurrentIssue"
+msgstr "View Current Issue"
+
+msgid "plugins.themes.customTheme.footer.quickLinks"
+msgstr "Quick Links"
+
+msgid "plugins.themes.customTheme.footer.contact"
+msgstr "Contact"
+
+msgid "plugins.themes.customTheme.footer.publishedBy"
+msgstr "Published by"
+
+msgid "plugins.themes.customTheme.search.foundResults"
+msgstr "Found {$total} items."

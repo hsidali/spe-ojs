@@ -29,6 +29,16 @@ a {
 	}
 }
 
+// Visible keyboard focus everywhere (WCAG AA)
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+	outline: 2px solid @primary;
+	outline-offset: 2px;
+}
+
 
 // Page container widths
 .pkp_site_name_wrapper,
@@ -101,28 +111,6 @@ a {
 	}
 }
 
-@media( min-width: @screen-tablet ) {
-
-	// Full-height borders wrapping primary content column
-	.pkp_structure_main {
-
-		&:before,
-		&:after {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			width: 1px;
-			background: @bg-border-color;
-		}
-
-		&:after {
-			left: @screen-tablet-container;
-		}
-	}
-}
-
 @media( min-width: @screen-desktop ) {
 
 	.pkp_structure_content {
@@ -138,10 +126,6 @@ a {
 		float: left;
 		padding: 0 @triple (@triple * 3);
 		width: @screen-desktop-container - @sidebar-width;
-
-		&:after {
-			left: @screen-desktop-container - @sidebar-width;
-		}
 	}
 }
 
@@ -149,10 +133,6 @@ a {
 
 	.pkp_structure_main {
 		width: @screen-lg-desktop-container - @sidebar-width;
-
-		&:after {
-			left: @screen-lg-desktop-container - @sidebar-width;
-		}
 	}
 }
 
@@ -164,17 +144,6 @@ a {
 		margin-left: auto;
 		margin-right: auto;
 		margin-top: @quadruple;
-
-		// Aligns the left and right borders
-		@no-sidebar-margins: @sidebar-width / 2;
-		&:before {
-			left: @no-sidebar-margins;
-		}
-
-		&:after {
-			left: auto;
-			right: @no-sidebar-margins;
-		}
 	}
 }
 

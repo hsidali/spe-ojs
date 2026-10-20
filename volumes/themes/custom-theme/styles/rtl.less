@@ -14,31 +14,10 @@ body[dir="rtl"] {
 	unicode-bidi: embed;
 
 	// Layout
-	@media(min-width: @screen-tablet) {
-
-		.pkp_structure_main {
-
-			&:before {
-				left: auto;
-				right: 0;
-			}
-
-			&:after {
-				left: auto;
-				right: @screen-tablet-container;
-			}
-		}
-	}
-
 	@media(min-width: @screen-desktop) {
 
 		.pkp_structure_main {
 			float: right;
-
-			&:after {
-				left: auto;
-				right: @screen-desktop-container - @sidebar-width;
-			}
 		}
 
 		.pkp_structure_sidebar {
@@ -52,14 +31,6 @@ body[dir="rtl"] {
 	}
 
 	@media(min-width: @screen-lg-desktop) {
-
-		.pkp_structure_main {
-
-			&:after {
-				left: auto;
-				right: @screen-lg-desktop-container - @sidebar-width;
-			}
-		}
 	}
 
 	// Header
@@ -107,6 +78,8 @@ body[dir="rtl"] {
 			margin-left: 0.5em;
 		}
 	}
+
+	// Journal hero + footer follow page direction automatically (flex/grid).
 
 	// Issue table of contents
 	.obj_issue_toc {

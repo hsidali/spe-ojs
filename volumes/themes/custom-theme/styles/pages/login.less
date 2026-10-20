@@ -10,14 +10,23 @@
  */
 .page_login {
 
-	// Form
+	// Form card
 	.login {
 		margin-bottom: 0;
-		max-width: 17em;
+		max-width: 26em;
+		padding: @double;
+		background: #fff;
+		border: 1px solid @bg-border-color;
+		border-radius: @radius;
+		box-shadow: 0 1px 4px rgba(11, 18, 32, 0.05);
 
 		input[type="text"],
 		input[type="password"] {
 			width: 100%;
+		}
+
+		@media (min-width: @screen-desktop) {
+			padding: @double @triple;
 		}
 	}
 

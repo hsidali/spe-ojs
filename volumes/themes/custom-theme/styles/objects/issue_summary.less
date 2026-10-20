@@ -25,13 +25,28 @@
 			display: block;
 			width: auto;
 			max-height: 250px;
+			border-radius: @radius-sm;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 		}
 	}
 
 	.title {
 		font-family: @font-heading;
-		font-weight: @bold;
+		font-weight: @semibold;
 		text-decoration: none;
+
+		a {
+			color: @ink;
+			text-decoration: none;
+
+			&:hover,
+			&:focus {
+				color: @primary;
+				text-decoration: underline;
+				text-decoration-thickness: 1px;
+				text-underline-offset: 2px;
+			}
+		}
 	}
 
 	.series {

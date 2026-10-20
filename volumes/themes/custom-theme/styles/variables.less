@@ -5,35 +5,53 @@
  * Copyright (c) 2003-2021 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @brief Custom theme variables — modern minimalist palette
+ * @brief Custom theme variables — ESI academic palette.
+ * Single source of truth: LESS variables below (used by all stylesheets)
+ * mirrored as CSS custom properties on :root for plain-CSS use.
  */
 //
-// Colors
+// Colors — ESI palette (from logo)
 //
+:root {
+	--esi-primary: #0060B0;
+	--esi-primary-hover: #004F94;
+	--esi-primary-pressed: #003F77;
+	--esi-ink: #111418;
+	--esi-header: #0B1220;
+	--esi-text: #1F2933;
+	--esi-text-muted: #5B6670;
+	--esi-border: #E3E7EB;
+	--esi-bg: #FFFFFF;
+	--esi-surface: #F6F8FA;
+}
 
 // Background
 @bg:                     #fff;
-@bg-shade:               #F3F4F6;
-@bg-base:                #2563EB; // Primary blue — header bg, accent
+@bg-shade:               #F6F8FA;
+@bg-base:                #0B1220; // Near-black header band
 
-// Primary "anchor" color for links
-@primary:                #2563EB;
-@primary-lift:           #1D4ED8;
+// Primary "anchor" color for links and CTAs
+@primary:                #0060B0;
+@primary-lift:           #004F94;
+@primary-pressed:        #003F77;
 
-// Accent
-@accent:                 #FACC15; // Warm yellow — sparingly for highlights
+// Ink
+@ink:                    #111418;
+
+// Accent (retired yellow) — kept as alias so old references resolve to primary
+@accent:                 #0060B0;
 
 // Yes/no, success/error, on/off
 @yes:                    #16A34A;
 @no:                     #DC2626;
 
 // Text
-@text:                   #1F2937;
-@text-light:             #6B7280;
+@text:                   #1F2933;
+@text-light:             #5B6670;
 @text-bg-base:           #fff;
 
 // Border colors
-@bg-border-color:        #E5E7EB;
+@bg-border-color:        #E3E7EB;
 @bg-base-border-color:   rgba(255,255,255,0.2);
 
 //
@@ -49,8 +67,8 @@
 //
 // Typography
 //
-@font:                   "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
-@font-heading:           @font;
+@font:                   "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+@font-heading:           "Source Serif 4", Georgia, "Times New Roman", serif;
 @font-site-title:        @font-heading;
 @font-sml:               0.875rem;
 @line-sml:               1.43rem;
@@ -73,8 +91,9 @@
 // Borders
 //
 @bg-border:              1px solid @bg-border-color;
-@form-border:            1px solid #D1D5DB;
-@radius:                 8px;
+@form-border:            1px solid #CBD2D9;
+@radius:                 5px;
+@radius-sm:              4px;
 
 
 //

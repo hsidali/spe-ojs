@@ -144,8 +144,14 @@
 
 		&:hover,
 		&:focus {
-			color: @accent;
-			text-decoration: none;
+			color: #fff;
+			text-decoration: underline;
+		}
+
+		&.is_current {
+			font-weight: @semibold;
+			text-decoration: underline;
+			text-underline-offset: 3px;
 		}
 	}
 
@@ -172,8 +178,8 @@
 		height: @double;
 		margin-left: 0.5em;
 		border-radius: 50%;
-		background: @accent;
-		color: #1F2937;
+		background: #fff;
+		color: @bg-base;
 		line-height: @double;
 		text-align: center;
 		font-size: 0.75rem;
@@ -189,8 +195,8 @@
 	> li > ul a {
 		.task_count {
 			display: inline-block;
-			background: @accent;
-			color: #1F2937;
+			background: @primary;
+			color: #fff;
 		}
 
 		&:hover .task_count,
@@ -371,7 +377,12 @@
 				&:hover {
 					color: @text-bg-base;
 					outline: 0;
-					border-color: @accent;
+					border-color: #fff;
+				}
+
+				&.is_current {
+					border-color: #fff;
+					font-weight: @semibold;
 				}
 
 				&:focus {
@@ -535,7 +546,7 @@
 			&:hover {
 				color: @text-bg-base;
 				outline: 0;
-				border-color: @accent;
+				border-color: #fff;
 				text-decoration: none;
 			}
 
@@ -548,4 +559,93 @@
 			}
 		}
 	}
+}
+
+// Inline Lucide nav icons (Register/Login) — 18px, currentColor
+.pkp_nav_icon {
+	width: 18px;
+	height: 18px;
+	margin-right: 0.375em;
+	vertical-align: -3px;
+}
+
+// Submission CTA duplicated inside the mobile nav (sidebar is desktop-only)
+.pkp_navigation_submission_wrapper {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid @bg-base-border-color;
+}
+
+.pkp_navigation_submission {
+	display: block;
+	padding: 0.625em 1em;
+	background: @primary;
+	border: 1px solid @primary;
+	border-radius: @radius;
+	color: #fff;
+	font-weight: @semibold;
+	text-align: center;
+	text-decoration: none;
+
+	&:hover,
+	&:focus {
+		background: @primary-lift;
+		border-color: @primary-lift;
+		color: #fff;
+		text-decoration: none;
+	}
+
+	&:focus-visible {
+		outline: 2px solid #fff;
+		outline-offset: 2px;
+	}
+}
+
+@media (min-width: @screen-desktop) {
+	.pkp_navigation_submission_wrapper {
+		display: none;
+	}
+}
+
+// ── Utility top bar (ISSN / publisher / open access) ──
+.pkp_utility_bar {
+	background: darken(@bg-base, 4%);
+	border-bottom: 1px solid @bg-base-border-color;
+}
+
+.pkp_utility_bar_inner {
+	max-width: @screen-lg-desktop-container;
+	margin: 0 auto;
+	padding: 0.375rem 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem 1rem;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	color: rgba(255, 255, 255, 0.75);
+}
+
+.pkp_utility_oa {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375em;
+	font-weight: @semibold;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	font-size: 0.7rem;
+	color: #fff;
+
+	svg {
+		flex: none;
+	}
+}
+
+.pkp_utility_item {
+	white-space: nowrap;
+}
+
+.pkp_utility_publisher {
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

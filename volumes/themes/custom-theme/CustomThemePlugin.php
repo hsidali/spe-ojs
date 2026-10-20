@@ -16,7 +16,10 @@ namespace APP\plugins\themes\customTheme;
 
 use APP\core\Application;
 use APP\file\PublicFileManager;
+use APP\observers\events\UsageEvent;
+use APP\facades\Repo;
 use PKP\config\Config;
+use PKP\plugins\Hook;
 use PKP\core\PKPSessionGuard;
 
 class CustomThemePlugin extends \PKP\plugins\ThemePlugin
@@ -41,13 +44,12 @@ class CustomThemePlugin extends \PKP\plugins\ThemePlugin
     {
         // Register theme options
 
-        // Typography is hardcoded to Poppins (loaded via Google Fonts in poppins.less)
-        // No font option is needed — Poppins is set in variables.less
+        // Typography uses system stacks (serif titles, sans UI) — see variables.less.
 
         $this->addOption('baseColour', 'FieldColor', [
             'label' => __('plugins.themes.default.option.colour.label'),
             'description' => __('plugins.themes.default.option.colour.description'),
-            'default' => '#2563EB',
+            'default' => '#0060B0',
         ]);
 
         $this->addOption('showDescriptionInJournalIndex', 'FieldOptions', [
@@ -99,8 +101,8 @@ class CustomThemePlugin extends \PKP\plugins\ThemePlugin
         $additionalLessVariables = [];
 
         // Update colour based on theme option
-        if (($baseColour = $this->getOption('baseColour')) !== '#2563EB') {
-            if (!preg_match('/^#[0-9a-fA-F]{1,6}$/', $baseColour)) $baseColour = '#2563EB'; // pkp/pkp-lib#11974
+        if (($baseColour = $this->getOption('baseColour')) !== '#0060B0') {
+            if (!preg_match('/^#[0-9a-fA-F]{1,6}$/', $baseColour)) $baseColour = '#0060B0'; // pkp/pkp-lib#11974
             $additionalLessVariables[] = '@bg-base:' . $baseColour . ';';
             $additionalLessVariables[] = '@primary:' . $baseColour . ';';
             if (!$this->isColourDark($baseColour)) {
@@ -160,8 +162,72 @@ class CustomThemePlugin extends \PKP\plugins\ThemePlugin
         // Load custom JavaScript for this theme
         $this->addScript('default', 'js/main.js');
 
+        // Serve PDF galleys inline (Content-Disposition: inline) so the
+        // "View Article" link opens in the browser's PDF viewer instead of
+        // forcing a download. Core's ArticleHandler::download() streams with
+        // attachment; intercepting here keeps the fix inside the theme.
+        Hook::add('ArticleHandler::download', $this->servePdfInline(...));
+
         // Add navigation menu areas for this theme
         $this->addMenuArea(['primary', 'user']);
+    }
+
+    /**
+     * Stream a PDF galley file with Content-Disposition: inline.
+     * Returns ABORT (skipping core's attachment download) for PDF galleys,
+     * CONTINUE for everything else. Access control and file checks have
+     * already run in ArticleHandler before this hook fires.
+     */
+    public function servePdfInline(string $hook, array $args): bool
+    {
+        $galley = $args[1] ?? null;
+        $submissionFileId = $args[2] ?? null;
+        if (!$galley || $galley->getData('urlRemote')) {
+            return Hook::CONTINUE;
+        }
+        if (!$submissionFileId) {
+            $submissionFileId = $galley->getData('submissionFileId');
+        }
+        if (!$submissionFileId) {
+            return Hook::CONTINUE;
+        }
+        $submissionFile = Repo::submissionFile()->get((int) $submissionFileId);
+        if (!$submissionFile) {
+            return Hook::CONTINUE;
+        }
+        $file = app()->get('file')->get($submissionFile->getData('fileId'));
+        if (!$file || ($file->mimetype ?? '') !== 'application/pdf') {
+            return Hook::CONTINUE;
+        }
+        if (!app()->get('file')->fs->has($submissionFile->getData('path'))) {
+            return Hook::CONTINUE;
+        }
+
+        $request = Application::get()->getRequest();
+        $context = $request->getContext();
+        $article = $args[0] ?? null;
+        if ($article && $galley->getData('submissionFileId') == $submissionFileId) {
+            event(new UsageEvent(
+                Application::ASSOC_TYPE_SUBMISSION_FILE,
+                $context,
+                $article,
+                $galley,
+                $submissionFile,
+                null
+            ));
+        }
+
+        $localizedName = $submissionFile->getLocalizedData('name');
+        if (!$localizedName) {
+            $filename = basename((string) $submissionFile->getData('path'));
+        } else {
+            $filename = app()->get('file')->formatFilename(
+                $submissionFile->getData('path'),
+                $localizedName
+            );
+        }
+        app()->get('file')->download($submissionFile->getData('fileId'), $filename, true);
+        return Hook::ABORT;
     }
 
     /**

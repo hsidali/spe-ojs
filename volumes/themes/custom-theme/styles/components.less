@@ -18,7 +18,7 @@
 	display: inline-block;
 	padding: 0.5em 1.25em;
 	background: @primary;
-	border: none;
+	border: 1px solid @primary;
 	border-radius: @radius;
 	box-shadow: none;
 	font-family: @font;
@@ -28,14 +28,18 @@
 	color: #fff;
 	text-decoration: none;
 	cursor: pointer;
-	transition: all 0.15s ease;
 
 	&:hover,
 	&:focus {
 		background: @primary-lift;
-		box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+		border-color: @primary-lift;
 		color: #fff;
 		text-decoration: none;
+	}
+
+	&:active {
+		background: @primary-pressed;
+		border-color: @primary-pressed;
 	}
 }
 
@@ -53,13 +57,18 @@
 	color: @primary;
 	text-decoration: none;
 	cursor: pointer;
-	transition: all 0.15s ease;
 
 	&:hover,
 	&:focus {
 		background: @primary;
+		border-color: @primary;
 		color: #fff;
-		box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+	}
+
+	&:active {
+		background: @primary-pressed;
+		border-color: @primary-pressed;
+		color: #fff;
 	}
 }
 
