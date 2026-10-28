@@ -1,3 +1,31 @@
-.swp
+# === Credentials / Environment ===
+.env
+
+# === Runtime volume data ===
+# Database data files (MariaDB/MySQL) — NEVER commit
+volumes/db/
+
+# Logs (app and db)
+volumes/logs/
+
+# Private runtime files (uploads, scheduled tasks, temp, usage stats)
+volumes/private/
+
+# Public uploads (journal cover images, etc.)
+volumes/public/
+
+# SQL auto-import dump (only runs on first DB creation)
+volumes/db-import/
+
+# === Editor / OS / Tool junk ===
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
 .sandbox
 older
+
+# === Antigravity / AI agent scratch ===
+AGENTS.md
