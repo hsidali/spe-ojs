@@ -42,7 +42,7 @@ if grep -qE '\$\{(OJS_[A-Z_]+|MYSQL_PASSWORD)\}' "$tmp"; then
 fi
 
 if [ "${1:-}" = "--check" ]; then
-  if docker compose exec -T app cat "$CONTAINER_PATH" | cmp -s - "$tmp"; then
+  if docker compose exec -T app cat "$CONTAINER_PATH" </dev/null | cmp -s - "$tmp"; then
     echo "config.inc.php matches template + .env"
   else
     echo "config.inc.php DIFFERS from template + .env"; exit 3
@@ -52,7 +52,7 @@ fi
 
 docker compose exec -T -u root app sh -c "cat > $CONTAINER_PATH" < "$tmp"
 # www-data owns it (OJS may write it); host user's group may read it (for backups); nobody else.
-docker compose exec -T -u root app sh -c "chown 33:$(id -g) $CONTAINER_PATH && chmod 640 $CONTAINER_PATH"
-docker compose exec -T app cat "$CONTAINER_PATH" | cmp -s - "$tmp" \
+docker compose exec -T -u root app sh -c "chown 33:$(id -g) $CONTAINER_PATH && chmod 640 $CONTAINER_PATH" </dev/null
+docker compose exec -T app cat "$CONTAINER_PATH" </dev/null | cmp -s - "$tmp" \
   || { echo "ERROR: written file does not match rendered output" >&2; exit 1; }
 echo "rendered $CONTAINER_PATH (restart the app to apply: docker compose restart app)"

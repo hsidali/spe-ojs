@@ -60,7 +60,7 @@ session_samesite = Lax
 ; time zones.
 ; I.e.: "Europe/Amsterdam"
 ; time_zone="Europe/Amsterdam"
-time_zone = UTC
+time_zone = "Africa/Algiers"
 
 ; Short and long date formats
 date_format_short = "Y-m-d"
@@ -183,7 +183,7 @@ debug = Off
 ; When using web_cache, configure a tool to periodically clear out cache files
 ; such as CRON. For example, configure it to run the following command:
 ; find .../ojs/cache -maxdepth 1 -name wc-\*.html -mtime +1 -exec rm "{}" ";"
-web_cache = Off
+web_cache = On
 web_cache_hours = 1
 
 
