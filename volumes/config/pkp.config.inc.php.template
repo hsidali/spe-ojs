@@ -26,14 +26,14 @@
 
 ; An application-specific key that is required for the app to run
 ; Internally this is used for any encryption (specifically cookie encryption if enabled)
-app_key = "base64:WkeqKbHg0fmRQxqi1SE+KTfFA/6Stwg/FsScURMXXe8="
+app_key = "${OJS_APP_KEY}"
 
 ; Set this to On once the system has been installed
 ; (This is generally done automatically by the installer)
 installed = On
 
 ; The canonical URL to the OJS installation (excluding the trailing slash)
-base_url = "http://localhost:8080"
+base_url = "http://10.0.3.31:8080"
 
 ; Enable strict mode. This will more aggressively cause errors/warnings when
 ; deprecated behaviour exists in the codebase.
@@ -60,7 +60,7 @@ session_samesite = Lax
 ; time zones.
 ; I.e.: "Europe/Amsterdam"
 ; time_zone="Europe/Amsterdam"
-time_zone = Africa/Algiers
+time_zone = UTC
 
 ; Short and long date formats
 date_format_short = "Y-m-d"
@@ -97,7 +97,7 @@ restful_urls = On
 ; An empty string indicates that all hosts should be trusted (not recommended!)
 ; Example:
 ; allowed_hosts = '["myjournal.tld", "anotherjournal.tld", "mylibrary.tld"]'
-allowed_hosts = "[\"localhost\"]"
+allowed_hosts = "[\"10.0.3.31\",\"10.184.150.225\",\"localhost\"]"
 
 ; Allow the X_FORWARDED_FOR header to override the REMOTE_ADDR as the source IP
 ; Set this to "On" if you are behind a reverse proxy and you control the
@@ -139,10 +139,10 @@ sandbox = Off
 
 [database]
 
-driver = mysqli
+driver = mariadb
 host = db
 username = pkp
-password = sidali567
+password = ${MYSQL_PASSWORD}
 name = pkp
 
 ; Set the non-standard port and/or socket, if used
@@ -281,10 +281,10 @@ session_expire_on_close = Off
 remember_me_lifetime = 30
 
 ; The unique salt to use for generating password reset hashes
-salt = "YouMustSetASecretKeyHere!!"
+salt = "${OJS_SALT}"
 
 ; The unique secret used for encoding and decoding API keys
-api_key_secret = ""
+api_key_secret = "${OJS_API_KEY_SECRET}"
 
 ; The number of seconds before a password reset hash expires (defaults to 7200 / 2 hours)
 reset_seconds = 7200
@@ -417,7 +417,7 @@ oai = On
 
 ; OAI Repository identifier. This setting forms part of OAI-PMH record IDs.
 ; Changing this setting may affect existing clients and is not recommended.
-repository_id = "ojs2.localhost:8080"
+repository_id = "ojs2.10.0.3.31:8080"
 
 ; Maximum number of records per request to serve via OAI
 oai_max_records = 100

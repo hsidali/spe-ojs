@@ -1,5 +1,15 @@
 # === Credentials / Environment ===
 .env
+.env.*
+!.env.example
+
+# Generated from volumes/config/pkp.config.inc.php.template + .env by
+# scripts/render-config.sh. It contains secrets: never commit it.
+volumes/config/pkp.config.inc.php
+
+# === Backups (database dumps + secrets) ===
+backups/
+*.sql.gz
 
 # === Runtime volume data ===
 # Database data files (MariaDB/MySQL) — NEVER commit
