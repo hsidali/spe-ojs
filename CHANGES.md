@@ -19,7 +19,7 @@ upgrades know what differs from a stock install. Newest first.
 | S8 / S10 / N2 / M8 | `docker-compose.yml`: no shared `env_file` (app gets no secrets), json-file logs 10 MB × 5, healthchecks for app and db, port 443/8443 no longer published, `/etc/localtime` read-only. Containers recreated once |
 | N2 / S8 | User crontab: health check every 5 min, weekly Apache log rotation |
 | N5 | Docker build cache pruned (1.25 GB) |
-| M8 / S4 / S5 | `scripts/host-hardening.sh` (needs sudo): ufw, NTP via 10.0.3.254, host time zone |
+| M8 / S4 / S5 | `scripts/host-hardening.sh` (run by the admin with sudo): ufw enabled (SSH, 8080/tcp, 9993/udp), NTP via 10.0.3.254 (clock synchronized, offset ~7 ms), host time zone Africa/Algiers. Verified: site, healthchecks and container outbound traffic still OK |
 
 Not done yet (deferred): M0 repo private, M5 Gmail SMTP, M6 OJS scheduler + daily
 backup cron, S1 HTTPS, S2 SSH hardening, S3 reboot, S7 pinned versions, S11 content,
