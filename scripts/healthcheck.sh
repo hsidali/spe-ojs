@@ -19,6 +19,7 @@ LOG=volumes/logs/health.log
 STATE_FILE=${XDG_STATE_HOME:-$HOME/.local/state}/ojs-health.state
 HTTP_PORT=$(grep -E '^HTTP_PORT=' .env 2>/dev/null | cut -d= -f2- | tr -d "'\"")
 HTTP_PORT=${HTTP_PORT:-8080}
+HTTP_PORT=${HTTP_PORT##*:}      # "127.0.0.1:8080" -> "8080"
 
 level=0; problems=()
 warn() { problems+=("$1"); [ $level -lt 1 ] && level=1; }

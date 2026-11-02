@@ -20,24 +20,23 @@ cd "$(dirname "$0")/.."
 
 TEMPLATE=volumes/config/pkp.config.inc.php.template
 CONTAINER_PATH=/var/www/html/config.inc.php
-# Only these placeholders are replaced; any other "$" in the file is left alone.
-VARS='${MYSQL_PASSWORD} ${OJS_APP_KEY} ${OJS_SALT} ${OJS_API_KEY_SECRET}'
-
 [ -f "$TEMPLATE" ] || { echo "missing $TEMPLATE" >&2; exit 1; }
 [ -f .env ] || { echo "missing .env" >&2; exit 1; }
 
+# Placeholders = every ${OJS_...} or ${MYSQL_PASSWORD} found in the template.
+# Only those are replaced; any other "$" in the file is left alone.
+NAMES=$(grep -oE '\$\{(OJS_[A-Z0-9_]+|MYSQL_PASSWORD)\}' "$TEMPLATE" | tr -d '${}' | sort -u)
+VARS=$(for n in $NAMES; do printf '${%s} ' "$n"; done)
+
 set -a; . ./.env; set +a
 
-for v in MYSQL_PASSWORD OJS_APP_KEY; do
-  [ -n "${!v:-}" ] || { echo "ERROR: $v is empty in .env (the site would break)" >&2; exit 1; }
-done
-for v in OJS_SALT OJS_API_KEY_SECRET; do
-  [ -n "${!v:-}" ] || echo "WARNING: $v is empty in .env" >&2
+for v in $NAMES; do
+  [ -n "${!v:-}" ] || { echo "ERROR: $v is used in the template but empty or missing in .env" >&2; exit 1; }
 done
 
 tmp=$(mktemp); trap 'rm -f "$tmp"' EXIT
 envsubst "$VARS" < "$TEMPLATE" > "$tmp"
-if grep -qE '\$\{(OJS_[A-Z_]+|MYSQL_PASSWORD)\}' "$tmp"; then
+if grep -qE '\$\{(OJS_[A-Z0-9_]+|MYSQL_PASSWORD)\}' "$tmp"; then
   echo "ERROR: unresolved placeholder left in output" >&2; exit 1
 fi
 

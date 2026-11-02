@@ -3,6 +3,18 @@
 Changes made by hand on the deployment (VM `spe@10.0.3.31`, `~/ojs-deploy`), so future OJS
 upgrades know what differs from a stock install. Newest first.
 
+## 2026-11-02: admin scripts for domain name and email
+
+- `scripts/setup-domain.sh` (Caddy proxy via `docker-compose.proxy.yml`, optional HTTPS) and
+  `scripts/setup-email.sh` (Gmail SMTP, App Password kept in `.env`). Not run yet: the
+  domain and the Gmail account don't exist yet. Tested with `--dry-run` (no change) and with
+  a fake Gmail account (refused, nothing changed).
+- `render-config.sh` now replaces every `${OJS_*}` placeholder found in the template.
+- `apache.security.conf`: `SetEnvIf X-Forwarded-Proto https → HTTPS=on` (secure cookies behind
+  the proxy; no effect without it). App restarted, verified.
+- `backup.sh` also saves `volumes/caddy` (certificates); `healthcheck.sh` accepts
+  `HTTP_PORT=127.0.0.1:8080`.
+
 ## 2026-11-02: hardening after audit
 
 | Item | Change |

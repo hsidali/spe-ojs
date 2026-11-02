@@ -51,7 +51,7 @@ fi
 # 2. Files (only paths that exist). volumes/db is NOT copied raw: the dump above is
 #    the consistent copy of the database.
 paths=()
-for p in volumes/config volumes/private volumes/public volumes/themes volumes/plugins \
+for p in volumes/config volumes/private volumes/public volumes/themes volumes/plugins volumes/caddy \
          scripts .env .env.example docker-compose.yml docker-compose.override*.yml Dockerfile; do
   [ -e "$p" ] && paths+=("$p")
 done

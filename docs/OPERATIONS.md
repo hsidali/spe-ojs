@@ -46,6 +46,29 @@ into the file.
 | `rotate-logs.sh` | Rotates Apache log files > 10 MB (Docker logs are capped in compose: 10 MB × 5) |
 | `host-hardening.sh` | Root-only, run once: time zone, NTP, ufw |
 
+## Domain name and email (for the administrator)
+
+Both scripts are interactive. Run them on the VM, as `spe` (not with sudo), from
+`~/ojs-deploy`. Each one checks everything it can **before** changing anything, takes a
+backup, applies the change, verifies it, and ends with a table of every file it modified and
+its importance (also saved in `volumes/logs/`). Try `--dry-run` first: it asks the same
+questions and shows the exact changes without applying them.
+
+| Command | What it asks | What it changes |
+|---|---|---|
+| `scripts/setup-domain.sh` | domain name; HTTPS yes/no; email for certificate notices (optional); keep access by IP? | config template (`base_url`, `allowed_hosts`, `trust_x_forwarded_for`, OAI id), `.env` (turns on the Caddy proxy), `volumes/config/Caddyfile`; starts container `pkp_proxy_ojs` on ports 80/443 |
+| `scripts/setup-email.sh` | Gmail address; Gmail **App Password** (hidden); test recipient | `.env` (`OJS_SMTP_USER`, `OJS_SMTP_PASSWORD`), `[email]` section of the config template |
+| `scripts/setup-email.sh --test you@example.com` | — | nothing: sends a test email with the current settings |
+| `scripts/setup-domain.sh --rollback` / `scripts/setup-email.sh --rollback` | confirmation | restores the files from the backup taken before the last run |
+
+Before `setup-domain.sh` with HTTPS: the domain's DNS must point to the VM's public IP, and
+ports 80 + 443 on that IP must reach the VM (ask IT). Without that, answer "no" to HTTPS:
+the site then works on `http://<domain>`, and you can run the script again later.
+
+Before `setup-email.sh`: on the Google account, turn on 2-Step Verification and create an
+App Password (https://myaccount.google.com/apppasswords). For a Google Workspace account,
+the Workspace admin must allow App Passwords.
+
 ## Cron (user `spe`, `crontab -l`)
 
 - every 5 min: `healthcheck.sh`
