@@ -1,11 +1,18 @@
 # File: docker-compose.yml
-# Author: Marc Bria UAB (marc.bria@uab.es)
+# Author: Marc Bria UAB (marc.bria@uab.es) — adapted for the ESI journal.
+#
+# Secrets live only in .env (mode 600, not in git). Each container receives only the
+# variables it needs: no more `env_file: .env`, so the app never sees the DB root password.
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
 
 services:
   db:
     image: ${DB_VERSION:-mariadb:11.8}
-    env_file:
-      - .env
     container_name: "pkp_db_${COMPOSE_PROJECT_NAME:-demo}"
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-changeMePlease}"
@@ -20,10 +27,18 @@ services:
     networks:
       - inside
     restart: unless-stopped
+    logging: *default-logging
+    healthcheck:
+      # Uses the healthcheck user the MariaDB image created at initialisation.
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
   app:
     image: ${IMAGE_SOURCE:-local}/${PKP_TOOL:-omp}:${PKP_VERSION:-3_3_0-20}
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
       args:
@@ -32,30 +47,48 @@ services:
         PKP_VERSION: ${PKP_VERSION}
         WEB_SERVER: ${WEB_SERVER}
         BUILD_PKP_APP_OS: ${BUILD_PKP_APP_OS}
-    env_file:
-      - .env
     container_name: "pkp_app_${COMPOSE_PROJECT_NAME:-demo}"
     hostname: "${COMPOSE_PROJECT_NAME:-demo}"
+    # Only what the image's start scripts use. OJS reads its DB credentials from
+    # config.inc.php (rendered by scripts/render-config.sh), not from the environment.
+    environment:
+      SERVERNAME: "${SERVERNAME:-localhost}"
+      PKP_CONF: "${PKP_CONF:-/var/www/html/config.inc.php}"
+      PKP_WEB_CONF: "${PKP_WEB_CONF:-/etc/apache2/conf-enabled/pkp.conf}"
+      PKP_CLI_INSTALL: "${PKP_CLI_INSTALL:-0}"
+      HTTPS: "${HTTPS:-On}"
     ports:
       - ${HTTP_PORT:-8081}:80
-      - ${HTTPS_PORT:-443}:443
+      # 443 is not published: the image's self-signed certificate is not used.
+      # HTTPS will be terminated by a reverse proxy in front of this container.
     volumes:
       # Keep host and container sync:
-      - /etc/localtime:/etc/localtime
+      - /etc/localtime:/etc/localtime:ro
       - ./volumes/private:/var/www/files
       - ./volumes/public:/var/www/html/public
       - ./volumes/themes/custom-theme:/var/www/html/plugins/themes/customTheme
       - ./volumes/logs/app:/var/log/apache2
       # WARNING: You can only enable file-volumes if file exists in the container.
+      # Edit these files in place (never `sed -i` or mv), then: docker compose restart app
       - ./volumes/config/pkp.config.inc.php:/var/www/html/config.inc.php
       - ./volumes/config/apache.htaccess:/var/www/html/.htaccess
       - ./volumes/config/php.custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./volumes/config/apache.security.conf:/etc/apache2/conf-enabled/zz-security.conf:ro
 
     networks:
       - inside
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     restart: unless-stopped
+    logging: *default-logging
+    healthcheck:
+      # 2xx/3xx = healthy. Needs "localhost" in allowed_hosts (config.inc.php).
+      test: ["CMD-SHELL", "curl -fsS -o /dev/null -H 'Host: localhost' http://127.0.0.1/index.php/index/en || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 
 networks:
   inside:
