@@ -43,3 +43,12 @@ older
 
 # === Antigravity / AI agent scratch ===
 AGENTS.md
+
+# LaTeX build output (docs/guide)
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
