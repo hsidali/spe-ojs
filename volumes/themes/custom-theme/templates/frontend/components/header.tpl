@@ -95,8 +95,13 @@
 						 * The image renders here automatically. Recommended size: 200×60px, PNG/SVG.
 						 * File location on disk: {$publicFilesDir}/{$displayPageHeaderLogo.uploadName}
 						 *}
-						<a href="{$homeUrl}" class="is_img">
-							<img src="{$publicFilesDir}/{$displayPageHeaderLogo.uploadName|escape:"url"}" width="{$displayPageHeaderLogo.width|escape}" height="{$displayPageHeaderLogo.height|escape}" {if $displayPageHeaderLogo.altText != ''}alt="{$displayPageHeaderLogo.altText|escape}"{/if} />
+						{* Logo and journal name side by side, in one link. The name is
+						   shown as text, so the image is decorative (empty alt). *}
+						<a href="{$homeUrl}" class="is_img pkp_site_brand">
+							<img src="{$publicFilesDir}/{$displayPageHeaderLogo.uploadName|escape:"url"}" width="{$displayPageHeaderLogo.width|escape}" height="{$displayPageHeaderLogo.height|escape}" alt="{if !$displayPageHeaderTitle}{$displayPageHeaderLogo.altText|escape}{/if}" />
+							{if $displayPageHeaderTitle}
+								<span class="is_text">{$displayPageHeaderTitle|escape}</span>
+							{/if}
 						</a>
 					{elseif $displayPageHeaderTitle}
 						{**

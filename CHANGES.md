@@ -3,6 +3,25 @@
 Changes made by hand on the deployment (VM `spe@10.0.3.31`, `~/ojs-deploy`), so future OJS
 upgrades know what differs from a stock install. Newest first.
 
+## 2026-11-02: journal name, logo and favicon
+
+Backup first: `~/ojs-backups/20261102-185245-pre-branding`.
+
+- Journal name (English) `ESI` -> `ESI Journal` (`journal_settings.name`, same as
+  Settings > Journal > Journal title).
+- Logo: `esi-logo.png` (white on transparent, 644x472) installed as
+  `volumes/public/journals/1/pageHeaderLogoImage_en.png` + setting `pageHeaderLogoImage`
+  (same as Settings > Website > Appearance > Logo).
+- Favicon: the logo on the header colour `#0B1220`, 192x192, generated with PHP GD ->
+  `volumes/public/journals/1/favicon_en.png` + setting `favicon`.
+- Theme `custom-theme`: `templates/frontend/components/header.tpl` shows the logo **and**
+  the journal name together (stock OJS shows only one); styles in `styles/head.less`
+  (`.pkp_site_brand`).
+- Caches cleared (`cache/t_compile`, compiled CSS, `wc-*.html`).
+
+To change the logo later, use the OJS admin pages (Settings > Website > Appearance); the
+header keeps showing the name next to it.
+
 ## 2026-11-02: admin scripts for domain name and email
 
 - `scripts/setup-domain.sh` (Caddy proxy via `docker-compose.proxy.yml`, optional HTTPS) and

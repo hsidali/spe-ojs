@@ -73,6 +73,28 @@
 		}
 	}
 
+	// Logo + journal name side by side (header.tpl, when a logo is set)
+	.pkp_site_brand {
+		display: inline-flex;
+		align-items: center;
+		gap: @base;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-top: @half;
+		padding-bottom: @half;
+		color: @text-bg-base;
+		text-decoration: none;
+
+		img {
+			flex-shrink: 0;
+			height: @nav-menu-height - @base;
+		}
+
+		.is_text {
+			line-height: 1.2;
+		}
+	}
+
 	.is_text {
 		font-family: @font-site-title;
 		font-size: @font-sml;
@@ -245,6 +267,18 @@
 
 		.is_img img {
 			max-height: 80px;
+		}
+
+		.pkp_site_brand {
+			gap: @double;
+
+			img {
+				height: 72px;
+			}
+
+			.is_text {
+				line-height: 1.2;
+			}
 		}
 
 		.logo_placeholder {
